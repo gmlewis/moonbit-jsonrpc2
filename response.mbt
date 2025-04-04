@@ -1,6 +1,6 @@
 ///| Response is a Message used as a reply to a call Request.
 /// It will have the same ID as the call it is a response to.
-pub struct Response {
+pub(all) struct Response {
   // id of the request this is a response to.
   id : ID
   // result is the content of the response or an error.
@@ -8,7 +8,7 @@ pub struct Response {
 } derive(Show, Eq)
 
 ///| WireError is a jsonrpc2 error message.
-pub struct WireError {
+pub(all) struct WireError {
   code : Int
   message : String
   data : Json?
@@ -19,7 +19,7 @@ pub impl ToJson for Response with to_json(self) {
   let obj = { "jsonrpc": "2.0".to_json() }
   match self.id {
     String(s) => obj["id"] = s.to_json()
-    Number(n) => obj["id"] = n.to_json()
+    Number(n) => obj["id"] = Number(n.to_double())
   }
   match self.result {
     Ok(result) => obj["result"] = result

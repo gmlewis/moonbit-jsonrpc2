@@ -1,7 +1,7 @@
 ///| A Request is a message sent to a peer to request behavior.
 /// If it has an ID then it is a call and therefore requests a response,
 /// otherwise it is a notification which receives no response.
-pub struct Request {
+pub(all) struct Request {
   // id of this request, used to tie the Response back to the request.
   // This will be None for notifications.
   id : ID?
@@ -20,7 +20,7 @@ pub impl ToJson for Request with to_json(self) {
   }
   match self.id {
     Some(String(s)) => obj["id"] = s.to_json()
-    Some(Number(n)) => obj["id"] = n.to_json()
+    Some(Number(n)) => obj["id"] = Number(n.to_double())
     None => ()
   }
   obj.to_json()

@@ -5,3 +5,13 @@ pub enum ID {
   // ID is a string, used to identify the request.
   String(String)
 } derive(Show, Eq)
+
+///|
+pub fn ID::number(n : Int64) -> ID {
+  Number(n)
+}
+
+///|
+pub fn ID::string(s : String) -> ID {
+  String(s)
+}

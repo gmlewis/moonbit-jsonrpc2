@@ -1,0 +1,15 @@
+{
+  "name": "gmlewis/jsonrpc2",
+  "version": "0.0.1",
+  "deps": {
+    "gmlewis/io": "0.21.7"
+  },
+  "readme": "README.md",
+  "repository": "https://github.com/gmlewis/moonbit-jsonrpc2",
+  "license": "Apache-2.0",
+  "keywords": [
+    "json",
+    "rpc"
+  ],
+  "description": "MoonBit jsonrpc2: provide simple JSON-RPC 2.0 abstractions."
+}

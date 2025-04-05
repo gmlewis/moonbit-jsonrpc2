@@ -6,15 +6,25 @@ import(
 )
 
 // Values
+fn as_batch_request(Message) -> Array[Request]?
+
+fn as_batch_response(Message) -> Array[Response]?
+
+fn as_call(Message) -> Request?
+
+fn as_notification(Message) -> Request?
+
+fn as_request(Message) -> Request?
+
+fn as_response(Message) -> Response?
+
 fn header_framer() -> &Framer
 
-fn is_call(Message) -> Bool
-
-fn is_notification(Message) -> Bool
-
-fn is_response(Message) -> Bool
-
 fn line_framer() -> &Framer
+
+fn new_batch_request(Array[Message]) -> Message
+
+fn new_batch_response(Array[Message]) -> Message
 
 fn new_call(ID, String, Json) -> Message
 
@@ -67,11 +77,16 @@ impl Writer for LineWriter
 pub enum Message {
   Request(Request)
   Response(Response)
+  BatchRequest(Array[Request])
+  BatchResponse(Array[Response])
 }
 impl Message {
-  is_call(Self) -> Bool
-  is_notification(Self) -> Bool
-  is_response(Self) -> Bool
+  as_batch_request(Self) -> Array[Request]?
+  as_batch_response(Self) -> Array[Response]?
+  as_call(Self) -> Request?
+  as_notification(Self) -> Request?
+  as_request(Self) -> Request?
+  as_response(Self) -> Response?
 }
 impl Eq for Message
 impl Show for Message

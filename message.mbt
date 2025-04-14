@@ -1,4 +1,5 @@
-///| Message covers all jsonrpc2 message types.
+///|
+/// Message covers all jsonrpc2 message types.
 /// They share no common functionality, but are a closed set of concrete types
 /// that are allowed to implement this interface. The message types are Request
 /// and Response.
@@ -48,31 +49,36 @@ pub impl @json.FromJson for Message with from_json(json, path) {
   raise @json.JsonDecodeError((path, "expected request(s) or response(s)"))
 }
 
-///| new_notification constructs a new notification message for the supplied
+///|
+/// new_notification constructs a new notification message for the supplied
 /// method and parameters.
 pub fn new_notification(method_ : String, params : Json) -> Message {
   Request({ id: None, method_, params })
 }
 
-///| new_call constructs a new call message for the supplied ID, method and
+///|
+/// new_call constructs a new call message for the supplied ID, method and
 /// parameters.
 pub fn new_call(id : ID, method_ : String, params : Json) -> Message {
   Request({ id: Some(id), method_, params })
 }
 
-///| new_response constructs a new Response message.
+///|
+/// new_response constructs a new Response message.
 pub fn new_response(id : ID, result : Result[Json, WireError]) -> Message {
   Response({ id, result })
 }
 
-///| new_batch_request constructs a new batch request message for the supplied
+///|
+/// new_batch_request constructs a new batch request message for the supplied
 /// requests.
 pub fn new_batch_request(messages : Array[Message]) -> Message {
   let requests = messages.filter_map(as_request)
   BatchRequest(requests)
 }
 
-///| new_batch_response constructs a new batch response message for the supplied
+///|
+/// new_batch_response constructs a new batch response message for the supplied
 /// responses.
 pub fn new_batch_response(messages : Array[Message]) -> Message {
   let responses = messages.filter_map(as_response)
@@ -111,7 +117,8 @@ pub fn as_response(self : Message) -> Response? {
   }
 }
 
-///| as_batch_request returns the message as a batch request if it is one.
+///|
+/// as_batch_request returns the message as a batch request if it is one.
 pub fn as_batch_request(self : Message) -> Array[Request]? {
   if self is BatchRequest(arr_req) {
     Some(arr_req)
@@ -120,7 +127,8 @@ pub fn as_batch_request(self : Message) -> Array[Request]? {
   }
 }
 
-///| as_batch_response returns the message as a batch response if it is one.
+///|
+/// as_batch_response returns the message as a batch response if it is one.
 pub fn as_batch_response(self : Message) -> Array[Response]? {
   if self is BatchResponse(arr_res) {
     Some(arr_res)

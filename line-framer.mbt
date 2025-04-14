@@ -1,4 +1,5 @@
-///| line_framer returns a new Framer.
+///|
+/// line_framer returns a new Framer.
 /// The messages are sent with a terminating cr+newline, and rely on json decode consistency
 /// to determine message boundaries.
 pub fn line_framer() -> &Framer {

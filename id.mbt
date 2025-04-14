@@ -1,4 +1,5 @@
-///| ID is used to identify the request and tie it to the response.
+///|
+/// ID is used to identify the request and tie it to the response.
 pub enum ID {
   // ID is a number, used to identify the request.
   Number(Int64)

@@ -1,4 +1,5 @@
-///| A Request is a message sent to a peer to request behavior.
+///|
+/// A Request is a message sent to a peer to request behavior.
 /// If it has an ID then it is a call and therefore requests a response,
 /// otherwise it is a notification which receives no response.
 pub(all) struct Request {

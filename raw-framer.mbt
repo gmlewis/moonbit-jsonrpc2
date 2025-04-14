@@ -1,4 +1,5 @@
-///| raw_framer returns a new Framer.
+///|
+/// raw_framer returns a new Framer.
 /// The messages are sent with no wrapping, and rely on json decode consistency
 /// to determine message boundaries.
 pub fn raw_framer() -> &Framer {

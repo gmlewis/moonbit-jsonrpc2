@@ -1,4 +1,5 @@
-///| Response is a Message used as a reply to a call Request.
+///|
+/// Response is a Message used as a reply to a call Request.
 /// It will have the same ID as the call it is a response to.
 pub(all) struct Response {
   // id of the request this is a response to.
@@ -7,7 +8,8 @@ pub(all) struct Response {
   result : Result[Json, WireError]
 } derive(Show, Eq)
 
-///| WireError is a jsonrpc2 error message.
+///|
+/// WireError is a jsonrpc2 error message.
 pub(all) struct WireError {
   code : Int
   message : String

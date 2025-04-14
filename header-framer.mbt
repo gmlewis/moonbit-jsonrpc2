@@ -1,4 +1,5 @@
-///| header_framer returns a new Framer.
+///|
+/// header_framer returns a new Framer.
 /// The messages are sent with HTTP content length and MIME type headers.
 /// This is the format used by LSP and others.
 pub fn header_framer() -> &Framer {

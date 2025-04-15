@@ -59,6 +59,8 @@ impl ID {
 }
 impl Eq for ID
 impl Show for ID
+impl ToJson for ID
+impl @json.FromJson for ID
 
 pub struct LineFramer {
 }

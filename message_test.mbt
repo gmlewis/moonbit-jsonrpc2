@@ -5,7 +5,7 @@ test "Message/new_notification" {
   inspect!(
     json,
     content=
-      #|Object({"jsonrpc": String("2.0"), "method": String("test"), "params": Null})
+      #|Object({"jsonrpc": String("2.0"), "method": String("test")})
     ,
   )
   let got : Message = @json.from_json!(json)
@@ -24,7 +24,7 @@ test "Message/new_call" {
   inspect!(
     json,
     content=
-      #|Object({"jsonrpc": String("2.0"), "method": String("test"), "params": Null, "id": Number(123)})
+      #|Object({"jsonrpc": String("2.0"), "method": String("test"), "id": Number(123)})
     ,
   )
   let got : Message = @json.from_json!(json)
@@ -100,7 +100,7 @@ test "Message/new_batch_request" {
   inspect!(
     msg.to_json(),
     content=
-      #|Array([Object({"jsonrpc": String("2.0"), "method": String("test"), "params": Object({"test": Number(1)}), "id": Number(123)}), Object({"jsonrpc": String("2.0"), "method": String("test2"), "params": Null, "id": String("xyz")}), Object({"jsonrpc": String("2.0"), "method": String("test3"), "params": Array([String("a"), String("b"), String("c")])})])
+      #|Array([Object({"jsonrpc": String("2.0"), "method": String("test"), "params": Object({"test": Number(1)}), "id": Number(123)}), Object({"jsonrpc": String("2.0"), "method": String("test2"), "id": String("xyz")}), Object({"jsonrpc": String("2.0"), "method": String("test3"), "params": Array([String("a"), String("b"), String("c")])})])
     ,
   )
   let got : Message = @json.from_json!(msg.to_json())

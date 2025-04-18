@@ -14,10 +14,9 @@ pub(all) struct Request {
 
 ///|
 pub impl ToJson for Request with to_json(self) {
-  let obj = {
-    "jsonrpc": "2.0".to_json(),
-    "method": self.method_.to_json(),
-    "params": self.params,
+  let obj = { "jsonrpc": "2.0".to_json(), "method": self.method_.to_json() }
+  if not(self.params is Null) {
+    obj["params"] = self.params
   }
   match self.id {
     Some(String(s)) => obj["id"] = s.to_json()
@@ -33,6 +32,7 @@ pub impl @json.FromJson for Request with from_json(json, path) {
     raise @json.JsonDecodeError((path, "expected object"))
   }
   match obj {
+    // with params
     {
       "jsonrpc": String("2.0"),
       "id": Number(id),
@@ -53,9 +53,22 @@ pub impl @json.FromJson for Request with from_json(json, path) {
       "params": params,
       ..
     } => { id: None, method_, params }
+    // without params
+    {
+      "jsonrpc": String("2.0"),
+      "id": Number(id),
+      "method": String(method_),
+      ..
+    } => { id: Some(Number(id.to_int64())), method_, params: Null }
+    {
+      "jsonrpc": String("2.0"),
+      "id": String(id),
+      "method": String(method_),
+      ..
+    } => { id: Some(String(id)), method_, params: Null }
+    { "jsonrpc": String("2.0"), "method": String(method_), .. } =>
+      { id: None, method_, params: Null }
     _ =>
-      raise @json.JsonDecodeError(
-        (path, "expected jsonrpc, id, method and params"),
-      )
+      raise @json.JsonDecodeError((path, "expected jsonrpc and method fields"))
   }
 }

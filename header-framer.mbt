@@ -54,9 +54,14 @@ pub impl Reader for HeaderReader with read(self) -> (
     if line == "" {
       break
     }
-    let colon = line.index_of(":")
-    if colon < 0 {
-      return (None, total, Some(@io.IOError("invalid header line: '\{line}'")))
+    let colon = match line.find(":") {
+      Some(c) => c
+      None =>
+        return (
+          None,
+          total,
+          Some(@io.IOError("missing colon, invalid header line: '\{line}'")),
+        )
     }
     let name = line.substring(end=colon)
     let value = line.substring(start=colon + 1).trim_space()

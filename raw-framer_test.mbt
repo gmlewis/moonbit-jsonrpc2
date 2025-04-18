@@ -127,13 +127,13 @@ test "RawFramer::write/basic_functionality" {
   ])
   let (n, err) = writer.write(msg)
   inspect!(err, content="None")
-  inspect!(n, content="182")
   inspect!(
     buffer.to_string(),
     content=
-      #|{"jsonrpc":"2.0","method":"test_method","params":[]}{"jsonrpc":"2.0","method":"test_method","params":[],"id":100}{"jsonrpc":"2.0","method":"test_method","params":["Hello, 世界! 🌍"],"id":"abc"}[{"jsonrpc":"2.0","method":"test","params":{"test":1},"id":123},{"jsonrpc":"2.0","method":"test2","params":null,"id":"xyz"},{"jsonrpc":"2.0","method":"test3","params":["a","b","c"]}]
+      #|{"jsonrpc":"2.0","method":"test_method","params":[]}{"jsonrpc":"2.0","method":"test_method","params":[],"id":100}{"jsonrpc":"2.0","method":"test_method","params":["Hello, 世界! 🌍"],"id":"abc"}[{"jsonrpc":"2.0","method":"test","params":{"test":1},"id":123},{"jsonrpc":"2.0","method":"test2","id":"xyz"},{"jsonrpc":"2.0","method":"test3","params":["a","b","c"]}]
     ,
   )
+  inspect!(n, content="168")
 
   //
   let msg = new_batch_response([
@@ -152,11 +152,11 @@ test "RawFramer::write/basic_functionality" {
   ])
   let (n, err) = writer.write(msg)
   inspect!(err, content="None")
-  inspect!(n, content="131")
   inspect!(
     buffer.to_string(),
     content=
-      #|{"jsonrpc":"2.0","method":"test_method","params":[]}{"jsonrpc":"2.0","method":"test_method","params":[],"id":100}{"jsonrpc":"2.0","method":"test_method","params":["Hello, 世界! 🌍"],"id":"abc"}[{"jsonrpc":"2.0","method":"test","params":{"test":1},"id":123},{"jsonrpc":"2.0","method":"test2","params":null,"id":"xyz"},{"jsonrpc":"2.0","method":"test3","params":["a","b","c"]}][{"jsonrpc":"2.0","id":567,"result":42},{"jsonrpc":"2.0","id":890,"error":{"code":123,"message":"test4","data":{"test5":"test6"}}}]
+      #|{"jsonrpc":"2.0","method":"test_method","params":[]}{"jsonrpc":"2.0","method":"test_method","params":[],"id":100}{"jsonrpc":"2.0","method":"test_method","params":["Hello, 世界! 🌍"],"id":"abc"}[{"jsonrpc":"2.0","method":"test","params":{"test":1},"id":123},{"jsonrpc":"2.0","method":"test2","id":"xyz"},{"jsonrpc":"2.0","method":"test3","params":["a","b","c"]}][{"jsonrpc":"2.0","id":567,"result":42},{"jsonrpc":"2.0","id":890,"error":{"code":123,"message":"test4","data":{"test5":"test6"}}}]
     ,
   )
+  inspect!(n, content="131")
 }

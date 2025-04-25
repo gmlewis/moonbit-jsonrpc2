@@ -39,7 +39,8 @@ pub impl Reader for LineReader with read(self) -> (
   let (n, err) = @io.copy_until(buf, self.in_, b'\n')
   guard err is None else { return (None, 0, err) }
   let msg : Message = try {
-    @json.from_json!(@json.parse!(buf.to_string().trim_space()))
+    // Are these conversions really necessary?
+    @json.from_json!(@json.parse!(buf.to_string().trim_space().to_string()))
   } catch {
     e => return (None, 0, Some(@io.IOError(e.to_string())))
   }

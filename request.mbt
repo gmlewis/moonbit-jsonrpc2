@@ -20,7 +20,7 @@ pub impl ToJson for Request with to_json(self) {
   }
   match self.id {
     Some(String(s)) => obj["id"] = s.to_json()
-    Some(Number(n)) => obj["id"] = Number(n.to_double())
+    Some(Number(n)) => obj["id"] = n.to_double().to_json()
     None => ()
   }
   obj.to_json()
@@ -59,15 +59,15 @@ pub impl @json.FromJson for Request with from_json(json, path) {
       "id": Number(id),
       "method": String(method_),
       ..
-    } => { id: Some(Number(id.to_int64())), method_, params: Null }
+    } => { id: Some(Number(id.to_int64())), method_, params: Json::null() }
     {
       "jsonrpc": String("2.0"),
       "id": String(id),
       "method": String(method_),
       ..
-    } => { id: Some(String(id)), method_, params: Null }
+    } => { id: Some(String(id)), method_, params: Json::null() }
     { "jsonrpc": String("2.0"), "method": String(method_), .. } =>
-      { id: None, method_, params: Null }
+      { id: None, method_, params: Json::null() }
     _ =>
       raise @json.JsonDecodeError((path, "expected jsonrpc and method fields"))
   }

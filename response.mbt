@@ -21,7 +21,7 @@ pub impl ToJson for Response with to_json(self) {
   let obj = { "jsonrpc": "2.0".to_json() }
   match self.id {
     String(s) => obj["id"] = s.to_json()
-    Number(n) => obj["id"] = Number(n.to_double())
+    Number(n) => obj["id"] = n.to_double().to_json()
   }
   match self.result {
     Ok(result) => obj["result"] = result

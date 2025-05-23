@@ -35,9 +35,7 @@ pub impl Reader for RawReader with read(self) -> (Message?, Int64, @io.IOError?)
   if err != None {
     return (None, n, err)
   }
-  let msg : Message = try {
-    @json.from_json!(json)
-  } catch {
+  let msg : Message = try @json.from_json!(json) catch {
     e => return (None, n, Some(@io.IOError(e.to_string())))
   }
   (Some(msg), n, None)

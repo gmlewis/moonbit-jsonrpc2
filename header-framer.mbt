@@ -67,9 +67,7 @@ pub impl Reader for HeaderReader with read(self) -> (
     let value = line.to_string().substring(start=colon + 1).trim_space()
     // ignore unknown headers
     if name.to_lower() == "content-length" {
-      length = try {
-        @strconv.parse_int!(value.to_string(), base=10)
-      } catch {
+      length = try @strconv.parse_int!(value.to_string(), base=10) catch {
         _ =>
           return (
             None,
@@ -95,9 +93,7 @@ pub impl Reader for HeaderReader with read(self) -> (
   guard err is None else {
     return (None, total, Some(@io.IOError("failed reading body: \{err}")))
   }
-  let msg : Message = try {
-    @json.from_json!(@json.parse!(buf.to_string()))
-  } catch {
+  let msg : Message = try @json.from_json!(@json.parse!(buf.to_string())) catch {
     e => return (None, 0, Some(@io.IOError(e.to_string())))
   }
   (Some(msg), n, None)

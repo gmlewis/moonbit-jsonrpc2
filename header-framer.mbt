@@ -101,7 +101,7 @@ pub impl Reader for HeaderReader with read(self) -> (
 
 ///|
 pub impl Writer for HeaderWriter with write(self, msg) -> (Int64, @io.IOError?) {
-  let s = @json.stringify(msg.to_json())
+  let s = msg.to_json().stringify()
   let body = @io.Buffer::new()
   let (body_total, err) = body.write_string(s)
   guard err is None else { return (0, err) }

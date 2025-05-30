@@ -48,7 +48,7 @@ pub impl Reader for LineReader with read(self) -> (
 
 ///|
 pub impl Writer for LineWriter with write(self, msg) -> (Int64, @io.IOError?) {
-  let s = @json.stringify(msg.to_json())
+  let s = msg.to_json().stringify()
   let body = @io.Buffer::new()
   let (_, err) = body.write_string("\{s}\r\n")
   guard err is None else { return (0, err) }

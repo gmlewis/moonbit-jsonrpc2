@@ -43,7 +43,7 @@ pub impl Reader for RawReader with read(self) -> (Message?, Int64, @io.IOError?)
 
 ///|
 pub impl Writer for RawWriter with write(self, msg) -> (Int64, @io.IOError?) {
-  let s = @json.stringify(msg.to_json())
+  let s = msg.to_json().stringify()
   let body = @io.Buffer::new()
   let (_, err) = body.write_string(s)
   guard err is None else { return (0, err) }

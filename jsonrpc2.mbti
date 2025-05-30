@@ -53,10 +53,8 @@ pub enum ID {
   Number(Int64)
   String(String)
 }
-impl ID {
-  number(Int64) -> Self
-  string(String) -> Self
-}
+fn ID::number(Int64) -> Self
+fn ID::string(String) -> Self
 impl Eq for ID
 impl Show for ID
 impl ToJson for ID
@@ -82,14 +80,12 @@ pub enum Message {
   BatchRequest(Array[Request])
   BatchResponse(Array[Response])
 }
-impl Message {
-  as_batch_request(Self) -> Array[Request]?
-  as_batch_response(Self) -> Array[Response]?
-  as_call(Self) -> Request?
-  as_notification(Self) -> Request?
-  as_request(Self) -> Request?
-  as_response(Self) -> Response?
-}
+fn Message::as_batch_request(Self) -> Array[Request]?
+fn Message::as_batch_response(Self) -> Array[Response]?
+fn Message::as_call(Self) -> Request?
+fn Message::as_notification(Self) -> Request?
+fn Message::as_request(Self) -> Request?
+fn Message::as_response(Self) -> Response?
 impl Eq for Message
 impl Show for Message
 impl ToJson for Message

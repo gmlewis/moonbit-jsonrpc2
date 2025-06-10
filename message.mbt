@@ -73,7 +73,7 @@ pub fn new_response(id : ID, result : Result[Json, WireError]) -> Message {
 /// new_batch_request constructs a new batch request message for the supplied
 /// requests.
 pub fn new_batch_request(messages : Array[Message]) -> Message {
-  let requests = messages.filter_map(as_request)
+  let requests = messages.filter_map(Message::as_request)
   BatchRequest(requests)
 }
 
@@ -81,7 +81,7 @@ pub fn new_batch_request(messages : Array[Message]) -> Message {
 /// new_batch_response constructs a new batch response message for the supplied
 /// responses.
 pub fn new_batch_response(messages : Array[Message]) -> Message {
-  let responses = messages.filter_map(as_response)
+  let responses = messages.filter_map(Message::as_response)
   BatchResponse(responses)
 }
 

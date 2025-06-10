@@ -1,6 +1,6 @@
 {
   "name": "gmlewis/jsonrpc2",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "deps": {
     "gmlewis/io": "0.22.4"
   },

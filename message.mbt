@@ -26,23 +26,23 @@ pub impl ToJson for Message with to_json(self) {
 
 ///|
 pub impl @json.FromJson for Message with from_json(json, path) {
-  let req : Result[Request, @json.JsonDecodeError] = @json.from_json?(json)
+  let req : Result[Request, @json.JsonDecodeError] = try? @json.from_json(json)
   if req is Ok(req) {
     return Request(req)
   }
-  let res : Result[Response, @json.JsonDecodeError] = @json.from_json?(json)
+  let res : Result[Response, @json.JsonDecodeError] = try? @json.from_json(json)
   if res is Ok(res) {
     return Response(res)
   }
-  let arr_req : Result[Array[Request], @json.JsonDecodeError] = @json.from_json?(
-    json,
-  )
+  let arr_req : Result[Array[Request], @json.JsonDecodeError] = try? @json.from_json(
+      json,
+    )
   if arr_req is Ok(arr_req) {
     return BatchRequest(arr_req)
   }
-  let arr_res : Result[Array[Response], @json.JsonDecodeError] = @json.from_json?(
-    json,
-  )
+  let arr_res : Result[Array[Response], @json.JsonDecodeError] = try? @json.from_json(
+      json,
+    )
   if arr_res is Ok(arr_res) {
     return BatchResponse(arr_res)
   }

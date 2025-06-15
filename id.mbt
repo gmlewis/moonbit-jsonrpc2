@@ -27,11 +27,11 @@ pub impl ToJson for ID with to_json(self) {
 
 ///|
 pub impl @json.FromJson for ID with from_json(json, path) {
-  let n : Result[Double, @json.JsonDecodeError] = @json.from_json?(json)
+  let n : Result[Double, @json.JsonDecodeError] = try? @json.from_json(json)
   if n is Ok(n) {
     return Number(n.to_int64())
   }
-  let s : Result[String, @json.JsonDecodeError] = @json.from_json?(json)
+  let s : Result[String, @json.JsonDecodeError] = try? @json.from_json(json)
   if s is Ok(s) {
     return String(s)
   }

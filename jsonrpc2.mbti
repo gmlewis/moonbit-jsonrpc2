@@ -6,18 +6,6 @@ import(
 )
 
 // Values
-fn as_batch_request(Message) -> Array[Request]?
-
-fn as_batch_response(Message) -> Array[Response]?
-
-fn as_call(Message) -> Request?
-
-fn as_notification(Message) -> Request?
-
-fn as_request(Message) -> Request?
-
-fn as_response(Message) -> Response?
-
 fn header_framer() -> &Framer
 
 fn line_framer() -> &Framer

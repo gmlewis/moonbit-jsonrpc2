@@ -7,9 +7,9 @@ test "@jsonrpc2.ID/json-encoding" {
   inspect(id1.to_json(), content="Number(42)")
   inspect(
     id2.to_json(),
-    content=
+    content=(
       #|String("request-1")
-    ,
+    ),
   )
 
   // Test JSON decoding
@@ -48,9 +48,9 @@ test "@jsonrpc2.ID/edge-cases" {
   let empty_id = @jsonrpc2.ID::string("")
   inspect(
     empty_id.to_json(),
-    content=
+    content=(
       #|String("")
-    ,
+    ),
   )
 
   // Test decoding from JSON

@@ -7,9 +7,9 @@ test "HeaderFramer::read/empty-input" {
   inspect(n, content="0")
   inspect(
     err,
-    content=
+    content=(
       #|Some(IOError("failed reading header line: Some(IOError(\"eof\"))"))
-    ,
+    ),
   )
 }
 
@@ -22,9 +22,9 @@ test "HeaderFramer::read/missing-content-length" {
   inspect(n, content="1")
   inspect(
     err,
-    content=
+    content=(
       #|Some(IOError("missing Content-Length header"))
-    ,
+    ),
   )
 }
 
@@ -37,9 +37,9 @@ test "HeaderFramer::read/malformed-json" {
   inspect(n, content="0")
   inspect(
     err,
-    content=
+    content=(
       #|Some(IOError("Invalid character 'n' at line 1, column 1"))
-    ,
+    ),
   )
 }
 
@@ -54,9 +54,9 @@ test "HeaderFramer::read/bad-content-length" {
   inspect(n, content="0")
   inspect(
     err,
-    content=
+    content=(
       #|Some(IOError("Unexpected end of file"))
-    ,
+    ),
   )
 }
 
@@ -69,9 +69,9 @@ test "HeaderFramer::read/valid-request" {
   let (msg, n, err) = reader.read()
   inspect(
     msg,
-    content=
+    content=(
       #|Some(Request({id: Some(Number(1)), method_: "test", params: Object({})}))
-    ,
+    ),
   )
   inspect(n, content="52")
   inspect(err, content="None")
@@ -80,9 +80,9 @@ test "HeaderFramer::read/valid-request" {
   let (msg, n, err) = reader.read()
   inspect(
     msg,
-    content=
+    content=(
       #|Some(BatchRequest([{id: Some(Number(2)), method_: "test2", params: Object({"test3": String("test4")})}, {id: Some(Number(3)), method_: "test5", params: Array([String("a"), String("b"), String("c")])}]))
-    ,
+    ),
   )
   inspect(n, content="135")
   inspect(err, content="None")
@@ -93,9 +93,9 @@ test "HeaderFramer::read/valid-request" {
   inspect(n, content="0")
   inspect(
     err,
-    content=
+    content=(
       #|Some(IOError("JsonDecodeError(($, \"expected request(s) or response(s)\"))"))
-    ,
+    ),
   )
 
   // read again to consume the invalid JSON
@@ -104,9 +104,9 @@ test "HeaderFramer::read/valid-request" {
   inspect(n, content="0")
   inspect(
     err,
-    content=
+    content=(
       #|Some(IOError("Invalid character 'e' at line 1, column 1"))
-    ,
+    ),
   )
 }
 
@@ -146,8 +146,8 @@ test "HeaderFramer::write/basic_functionality" {
   //
   let msg = new_batch_request([
     new_call(ID::number(123), "test", { "test": 1 }.to_json()),
-    new_call(ID::string("xyz"), "test2", Json::Null),
-    new_response(ID::number(567), Ok(Json::Number(42.0))), // not a request - will be filtered out
+    new_call(ID::string("xyz"), "test2", Json::null()),
+    new_response(ID::number(567), Ok(Json::number(42.0))), // not a request - will be filtered out
     new_notification("test3", ["a", "b", "c"].to_json()),
   ])
   let (n, err) = writer.write(msg)
@@ -161,8 +161,8 @@ test "HeaderFramer::write/basic_functionality" {
   //
   let msg = new_batch_response([
     new_call(ID::number(123), "test", { "test": 1 }.to_json()), // not a response - will be filtered out
-    new_response(ID::number(567), Ok(Json::Number(42.0))),
-    new_call(ID::string("xyz"), "test2", Json::Null), // ditto
+    new_response(ID::number(567), Ok(Json::number(42.0))),
+    new_call(ID::string("xyz"), "test2", Json::null()), // ditto
     new_response(
       ID::number(890),
       Err(WireError::{

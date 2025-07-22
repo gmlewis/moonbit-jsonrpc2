@@ -36,15 +36,15 @@ pub impl @json.FromJson for Response with from_json(json, path) {
     raise @json.JsonDecodeError((path, "expected object"))
   }
   match obj {
-    { "jsonrpc": String("2.0"), "id": Number(id), "result": result, .. } =>
+    { "jsonrpc": String("2.0"), "id": Number(id, ..), "result": result, .. } =>
       { id: Number(id.to_int64()), result: Ok(result) }
     { "jsonrpc": String("2.0"), "id": String(id), "result": result, .. } =>
       { id: String(id), result: Ok(result) }
     {
       "jsonrpc": String("2.0"),
-      "id": Number(id),
+      "id": Number(id, ..),
       "error": {
-        "code": Number(code),
+        "code": Number(code, ..),
         "message": String(message),
         "data": data,
         ..
@@ -57,8 +57,8 @@ pub impl @json.FromJson for Response with from_json(json, path) {
       }
     {
       "jsonrpc": String("2.0"),
-      "id": Number(id),
-      "error": { "code": Number(code), "message": String(message), .. },
+      "id": Number(id, ..),
+      "error": { "code": Number(code, ..), "message": String(message), .. },
       ..
     } =>
       {
@@ -69,7 +69,7 @@ pub impl @json.FromJson for Response with from_json(json, path) {
       "jsonrpc": String("2.0"),
       "id": String(id),
       "error": {
-        "code": Number(code),
+        "code": Number(code, ..),
         "message": String(message),
         "data": data,
         ..
@@ -83,7 +83,7 @@ pub impl @json.FromJson for Response with from_json(json, path) {
     {
       "jsonrpc": String("2.0"),
       "id": String(id),
-      "error": { "code": Number(code), "message": String(message), .. },
+      "error": { "code": Number(code, ..), "message": String(message), .. },
       ..
     } =>
       {

@@ -35,7 +35,7 @@ pub impl @json.FromJson for Request with from_json(json, path) {
     // with params
     {
       "jsonrpc": String("2.0"),
-      "id": Number(id),
+      "id": Number(id, ..),
       "method": String(method_),
       "params": params,
       ..
@@ -56,7 +56,7 @@ pub impl @json.FromJson for Request with from_json(json, path) {
     // without params
     {
       "jsonrpc": String("2.0"),
-      "id": Number(id),
+      "id": Number(id, ..),
       "method": String(method_),
       ..
     } => { id: Some(Number(id.to_int64())), method_, params: Json::null() }

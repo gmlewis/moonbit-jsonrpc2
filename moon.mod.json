@@ -1,8 +1,8 @@
 {
   "name": "gmlewis/jsonrpc2",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "deps": {
-    "gmlewis/io": "0.22.8"
+    "gmlewis/io": "0.22.9"
   },
   "readme": "README.md",
   "repository": "https://github.com/gmlewis/moonbit-jsonrpc2",

@@ -23,6 +23,8 @@ fn new_response(ID, Result[Json, WireError]) -> Message
 
 fn raw_framer() -> &Framer
 
+// Errors
+
 // Types and methods
 pub struct HeaderFramer {
 }

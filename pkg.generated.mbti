@@ -1,0 +1,139 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "gmlewis/jsonrpc2"
+
+import(
+  "gmlewis/io"
+  "moonbitlang/core/json"
+)
+
+// Values
+fn header_framer() -> &Framer
+
+fn line_framer() -> &Framer
+
+fn new_batch_request(Array[Message]) -> Message
+
+fn new_batch_response(Array[Message]) -> Message
+
+fn new_call(ID, String, Json) -> Message
+
+fn new_notification(String, Json) -> Message
+
+fn new_response(ID, Result[Json, WireError]) -> Message
+
+fn raw_framer() -> &Framer
+
+// Errors
+
+// Types and methods
+pub struct HeaderFramer {
+}
+impl Framer for HeaderFramer
+
+pub struct HeaderReader {
+  in_ : &@io.ByteReader
+}
+impl Reader for HeaderReader
+
+pub struct HeaderWriter {
+  out : &@io.Writer
+}
+impl Writer for HeaderWriter
+
+pub enum ID {
+  Number(Int64)
+  String(String)
+}
+fn ID::number(Int64) -> Self
+fn ID::string(String) -> Self
+impl Eq for ID
+impl Show for ID
+impl ToJson for ID
+impl @json.FromJson for ID
+
+pub struct LineFramer {
+}
+impl Framer for LineFramer
+
+pub struct LineReader {
+  in_ : &@io.ByteReader
+}
+impl Reader for LineReader
+
+pub struct LineWriter {
+  out : &@io.Writer
+}
+impl Writer for LineWriter
+
+pub enum Message {
+  Request(Request)
+  Response(Response)
+  BatchRequest(Array[Request])
+  BatchResponse(Array[Response])
+}
+fn Message::as_batch_request(Self) -> Array[Request]?
+fn Message::as_batch_response(Self) -> Array[Response]?
+fn Message::as_call(Self) -> Request?
+fn Message::as_notification(Self) -> Request?
+fn Message::as_request(Self) -> Request?
+fn Message::as_response(Self) -> Response?
+impl Eq for Message
+impl Show for Message
+impl ToJson for Message
+impl @json.FromJson for Message
+
+pub struct RawFramer {
+}
+impl Framer for RawFramer
+
+type RawReader
+impl Reader for RawReader
+
+type RawWriter
+impl Writer for RawWriter
+
+pub(all) struct Request {
+  id : ID?
+  method_ : String
+  params : Json
+}
+impl Eq for Request
+impl Show for Request
+impl ToJson for Request
+impl @json.FromJson for Request
+
+pub(all) struct Response {
+  id : ID
+  result : Result[Json, WireError]
+}
+impl Eq for Response
+impl Show for Response
+impl ToJson for Response
+impl @json.FromJson for Response
+
+pub(all) struct WireError {
+  code : Int
+  message : String
+  data : Json?
+}
+impl Eq for WireError
+impl Show for WireError
+impl ToJson for WireError
+impl @json.FromJson for WireError
+
+// Type aliases
+
+// Traits
+pub trait Framer {
+  reader(Self, &@io.ByteReader) -> &Reader
+  writer(Self, &@io.Writer) -> &Writer
+}
+
+pub trait Reader {
+  read(Self) -> (Message?, Int64, @io.IOError?)
+}
+
+pub trait Writer {
+  write(Self, Message) -> (Int64, @io.IOError?)
+}
+

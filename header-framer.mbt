@@ -63,8 +63,11 @@ pub impl Reader for HeaderReader with read(self) -> (
           Some(@io.IOError("missing colon, invalid header line: '\{line}'")),
         )
     }
-    let name = line.to_string().substring(end=colon)
-    let value = line.to_string().substring(start=colon + 1).trim_space()
+    let name = line.to_string().unsafe_substring(start=0, end=colon)
+    let value = line
+      .to_string()
+      .unsafe_substring(start=colon + 1, end=line.length())
+      .trim_space()
     // ignore unknown headers
     if name.to_lower() == "content-length" {
       length = @strconv.parse_int(value.to_string(), base=10) catch {

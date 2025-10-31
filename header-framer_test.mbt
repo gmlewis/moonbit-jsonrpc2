@@ -94,7 +94,7 @@ test "HeaderFramer::read/valid-request" {
   inspect(
     err,
     content=(
-      #|Some(IOError("JsonDecodeError(($, \"expected request(s) or response(s)\"))"))
+      #|Some(IOError("JsonDecodeError((, \"expected request(s) or response(s)\"))"))
     ),
   )
 

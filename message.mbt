@@ -86,21 +86,21 @@ pub fn new_batch_response(messages : Array[Message]) -> Message {
 }
 
 ///|
-pub fn as_call(self : Message) -> Request? {
+pub fn Message::as_call(self : Message) -> Request? {
   guard self is Request(req) else { return None }
   guard req.id is Some(_) else { return None }
   Some(req)
 }
 
 ///|
-pub fn as_notification(self : Message) -> Request? {
+pub fn Message::as_notification(self : Message) -> Request? {
   guard self is Request(req) else { return None }
   guard req.id is None else { return None }
   Some(req)
 }
 
 ///|
-pub fn as_request(self : Message) -> Request? {
+pub fn Message::as_request(self : Message) -> Request? {
   if self is Request(req) {
     Some(req)
   } else {
@@ -109,7 +109,7 @@ pub fn as_request(self : Message) -> Request? {
 }
 
 ///|
-pub fn as_response(self : Message) -> Response? {
+pub fn Message::as_response(self : Message) -> Response? {
   if self is Response(res) {
     Some(res)
   } else {
@@ -119,7 +119,7 @@ pub fn as_response(self : Message) -> Response? {
 
 ///|
 /// as_batch_request returns the message as a batch request if it is one.
-pub fn as_batch_request(self : Message) -> Array[Request]? {
+pub fn Message::as_batch_request(self : Message) -> Array[Request]? {
   if self is BatchRequest(arr_req) {
     Some(arr_req)
   } else {
@@ -129,7 +129,7 @@ pub fn as_batch_request(self : Message) -> Array[Request]? {
 
 ///|
 /// as_batch_response returns the message as a batch response if it is one.
-pub fn as_batch_response(self : Message) -> Array[Response]? {
+pub fn Message::as_batch_response(self : Message) -> Array[Response]? {
   if self is BatchResponse(arr_res) {
     Some(arr_res)
   } else {

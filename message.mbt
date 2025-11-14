@@ -35,14 +35,14 @@ pub impl @json.FromJson for Message with from_json(json, path) {
     return Response(res)
   }
   let arr_req : Result[Array[Request], @json.JsonDecodeError] = try? @json.from_json(
-      json,
-    )
+    json,
+  )
   if arr_req is Ok(arr_req) {
     return BatchRequest(arr_req)
   }
   let arr_res : Result[Array[Response], @json.JsonDecodeError] = try? @json.from_json(
-      json,
-    )
+    json,
+  )
   if arr_res is Ok(arr_res) {
     return BatchResponse(arr_res)
   }

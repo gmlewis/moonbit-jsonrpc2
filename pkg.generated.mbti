@@ -7,63 +7,63 @@ import(
 )
 
 // Values
-fn header_framer() -> &Framer
+pub fn header_framer() -> &Framer
 
-fn line_framer() -> &Framer
+pub fn line_framer() -> &Framer
 
-fn new_batch_request(Array[Message]) -> Message
+pub fn new_batch_request(Array[Message]) -> Message
 
-fn new_batch_response(Array[Message]) -> Message
+pub fn new_batch_response(Array[Message]) -> Message
 
-fn new_call(ID, String, Json) -> Message
+pub fn new_call(ID, String, Json) -> Message
 
-fn new_notification(String, Json) -> Message
+pub fn new_notification(String, Json) -> Message
 
-fn new_response(ID, Result[Json, WireError]) -> Message
+pub fn new_response(ID, Result[Json, WireError]) -> Message
 
-fn raw_framer() -> &Framer
+pub fn raw_framer() -> &Framer
 
 // Errors
 
 // Types and methods
 pub struct HeaderFramer {
 }
-impl Framer for HeaderFramer
+pub impl Framer for HeaderFramer
 
 pub struct HeaderReader {
   in_ : &@io.ByteReader
 }
-impl Reader for HeaderReader
+pub impl Reader for HeaderReader
 
 pub struct HeaderWriter {
   out : &@io.Writer
 }
-impl Writer for HeaderWriter
+pub impl Writer for HeaderWriter
 
 pub enum ID {
   Number(Int64)
   String(String)
 }
-fn ID::number(Int64) -> Self
-fn ID::string(String) -> Self
-impl Eq for ID
-impl Show for ID
-impl ToJson for ID
-impl @json.FromJson for ID
+pub fn ID::number(Int64) -> Self
+pub fn ID::string(String) -> Self
+pub impl Eq for ID
+pub impl Show for ID
+pub impl ToJson for ID
+pub impl @json.FromJson for ID
 
 pub struct LineFramer {
 }
-impl Framer for LineFramer
+pub impl Framer for LineFramer
 
 pub struct LineReader {
   in_ : &@io.ByteReader
 }
-impl Reader for LineReader
+pub impl Reader for LineReader
 
 pub struct LineWriter {
   out : &@io.Writer
 }
-impl Writer for LineWriter
+pub impl Writer for LineWriter
 
 pub enum Message {
   Request(Request)
@@ -71,55 +71,55 @@ pub enum Message {
   BatchRequest(Array[Request])
   BatchResponse(Array[Response])
 }
-fn Message::as_batch_request(Self) -> Array[Request]?
-fn Message::as_batch_response(Self) -> Array[Response]?
-fn Message::as_call(Self) -> Request?
-fn Message::as_notification(Self) -> Request?
-fn Message::as_request(Self) -> Request?
-fn Message::as_response(Self) -> Response?
-impl Eq for Message
-impl Show for Message
-impl ToJson for Message
-impl @json.FromJson for Message
+pub fn Message::as_batch_request(Self) -> Array[Request]?
+pub fn Message::as_batch_response(Self) -> Array[Response]?
+pub fn Message::as_call(Self) -> Request?
+pub fn Message::as_notification(Self) -> Request?
+pub fn Message::as_request(Self) -> Request?
+pub fn Message::as_response(Self) -> Response?
+pub impl Eq for Message
+pub impl Show for Message
+pub impl ToJson for Message
+pub impl @json.FromJson for Message
 
 pub struct RawFramer {
 }
-impl Framer for RawFramer
+pub impl Framer for RawFramer
 
 type RawReader
-impl Reader for RawReader
+pub impl Reader for RawReader
 
 type RawWriter
-impl Writer for RawWriter
+pub impl Writer for RawWriter
 
 pub(all) struct Request {
   id : ID?
   method_ : String
   params : Json
 }
-impl Eq for Request
-impl Show for Request
-impl ToJson for Request
-impl @json.FromJson for Request
+pub impl Eq for Request
+pub impl Show for Request
+pub impl ToJson for Request
+pub impl @json.FromJson for Request
 
 pub(all) struct Response {
   id : ID
   result : Result[Json, WireError]
 }
-impl Eq for Response
-impl Show for Response
-impl ToJson for Response
-impl @json.FromJson for Response
+pub impl Eq for Response
+pub impl Show for Response
+pub impl ToJson for Response
+pub impl @json.FromJson for Response
 
 pub(all) struct WireError {
   code : Int
   message : String
   data : Json?
 }
-impl Eq for WireError
-impl Show for WireError
-impl ToJson for WireError
-impl @json.FromJson for WireError
+pub impl Eq for WireError
+pub impl Show for WireError
+pub impl ToJson for WireError
+pub impl @json.FromJson for WireError
 
 // Type aliases
 

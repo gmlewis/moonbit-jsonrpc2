@@ -49,7 +49,7 @@ pub impl Reader for HeaderReader with read(self) -> (
         Some(@io.IOError("failed reading header line: \{err}")),
       )
     }
-    let line = buf.to_string().trim_space()
+    let line = buf.to_string().trim()
     // check we have a header line
     if line == "" {
       break
@@ -67,7 +67,7 @@ pub impl Reader for HeaderReader with read(self) -> (
     let value = line
       .to_string()
       .unsafe_substring(start=colon + 1, end=line.length())
-      .trim_space()
+      .trim()
     // ignore unknown headers
     if name.to_lower() == "content-length" {
       length = @strconv.parse_int(value.to_string(), base=10) catch {

@@ -40,7 +40,7 @@ pub impl Reader for LineReader with read(self) -> (
   guard err is None else { return (None, 0, err) }
   // Are these conversions really necessary?
   let msg : Message = @json.from_json(
-    @json.parse(buf.to_string().trim_space().to_string()),
+    @json.parse(buf.to_string().trim().to_string()),
   ) catch {
     e => return (None, 0, Some(@io.IOError(e.to_string())))
   }

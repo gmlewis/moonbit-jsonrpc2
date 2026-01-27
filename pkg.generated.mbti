@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "gmlewis/jsonrpc2"
 
-import(
-  "gmlewis/io"
-  "moonbitlang/core/json"
-)
+import {
+  "gmlewis/io",
+  "moonbitlang/core/json",
+}
 
 // Values
 pub fn header_framer() -> &Framer

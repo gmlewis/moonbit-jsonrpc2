@@ -38,7 +38,7 @@ pub impl Reader for HeaderReader with read(self) -> (
   let mut total = 0L
   let mut length = 0
   // read the header, stop on the first empty line
-  for {
+  for ;; {
     let buf = @io.Buffer::new()
     let (n, err) = @io.copy_until(buf, self.in_, b'\n')
     total += n

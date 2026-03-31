@@ -70,7 +70,7 @@ pub impl Reader for HeaderReader with read(self) -> (
       .trim()
     // ignore unknown headers
     if name.to_lower() == "content-length" {
-      length = @strconv.parse_int(value.to_string(), base=10) catch {
+      length = @string.parse_int(value.to_string(), base=10) catch {
         _ =>
           return (
             None,

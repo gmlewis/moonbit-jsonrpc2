@@ -15,7 +15,7 @@ pub(all) struct Request {
 ///|
 pub impl ToJson for Request with to_json(self) {
   let obj = { "jsonrpc": "2.0".to_json(), "method": self.method_.to_json() }
-  if not(self.params is Null) {
+  if !(self.params is Null) {
     obj["params"] = self.params
   }
   match self.id {

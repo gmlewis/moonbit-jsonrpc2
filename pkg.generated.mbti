@@ -43,11 +43,9 @@ pub impl Writer for HeaderWriter
 pub enum ID {
   Number(Int64)
   String(String)
-}
+} derive(Eq, Show)
 pub fn ID::number(Int64) -> Self
 pub fn ID::string(String) -> Self
-pub impl Eq for ID
-pub impl Show for ID
 pub impl ToJson for ID
 pub impl @json.FromJson for ID
 
@@ -70,15 +68,13 @@ pub enum Message {
   Response(Response)
   BatchRequest(Array[Request])
   BatchResponse(Array[Response])
-}
+} derive(Eq, Show)
 pub fn Message::as_batch_request(Self) -> Array[Request]?
 pub fn Message::as_batch_response(Self) -> Array[Response]?
 pub fn Message::as_call(Self) -> Request?
 pub fn Message::as_notification(Self) -> Request?
 pub fn Message::as_request(Self) -> Request?
 pub fn Message::as_response(Self) -> Response?
-pub impl Eq for Message
-pub impl Show for Message
 pub impl ToJson for Message
 pub impl @json.FromJson for Message
 
@@ -96,18 +92,14 @@ pub(all) struct Request {
   id : ID?
   method_ : String
   params : Json
-}
-pub impl Eq for Request
-pub impl Show for Request
+} derive(Eq, Show)
 pub impl ToJson for Request
 pub impl @json.FromJson for Request
 
 pub(all) struct Response {
   id : ID
   result : Result[Json, WireError]
-}
-pub impl Eq for Response
-pub impl Show for Response
+} derive(Eq, Show)
 pub impl ToJson for Response
 pub impl @json.FromJson for Response
 
@@ -115,11 +107,7 @@ pub(all) struct WireError {
   code : Int
   message : String
   data : Json?
-}
-pub impl Eq for WireError
-pub impl Show for WireError
-pub impl ToJson for WireError
-pub impl @json.FromJson for WireError
+} derive(Eq, Show, ToJson, @json.FromJson)
 
 // Type aliases
 

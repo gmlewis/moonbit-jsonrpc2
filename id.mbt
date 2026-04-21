@@ -5,7 +5,43 @@ pub enum ID {
   Number(Int64)
   // ID is a string, used to identify the request.
   String(String)
-} derive(Show, Eq)
+} derive(Eq)
+
+///|
+pub impl Show for ID with output(self, logger) {
+  match self {
+    Number(n) =>
+      logger.write_string(
+        (
+          $|Number(\{n})
+        ),
+      )
+    String(s) =>
+      logger.write_string(
+        (
+          $|String(\{s.escape(quote=true)})
+        ),
+      )
+  }
+}
+
+///|
+test "ID show interface" {
+  let id1 = ID::number(42)
+  inspect(
+    id1,
+    content=(
+      #|Number(42)
+    ),
+  )
+  let id2 = ID::string("foo")
+  inspect(
+    id2,
+    content=(
+      #|String("foo")
+    ),
+  )
+}
 
 ///|
 pub fn ID::number(n : Int64) -> ID {

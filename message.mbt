@@ -12,7 +12,76 @@ pub enum Message {
   BatchRequest(Array[Request])
   // BatchResponse is an array of responses.
   BatchResponse(Array[Response])
-} derive(Show, Eq)
+} derive(Eq)
+
+///|
+pub impl Show for Message with output(self, logger) {
+  match self {
+    Request(req) =>
+      logger.write_string(
+        (
+          $|Request(\{req.to_string()})
+        ),
+      )
+    Response(res) =>
+      logger.write_string(
+        (
+          $|Response(\{res.to_string()})
+        ),
+      )
+    BatchRequest(arr_req) =>
+      logger.write_string(
+        (
+          $|BatchRequest(\{arr_req.to_string()})
+        ),
+      )
+    BatchResponse(arr_res) =>
+      logger.write_string(
+        (
+          $|BatchResponse(\{arr_res.to_string()})
+        ),
+      )
+  }
+}
+
+///|
+test "Message show interface" {
+  let m1 = new_notification("m", { "a": "b" }.to_json())
+  inspect(
+    m1,
+    content=(
+      #|Request({id: None, method_: "m", params: Object({"a": String("b")})})
+    ),
+  )
+  let m2 = new_call(ID::string("2"), "m", { "a": "b" }.to_json())
+  inspect(
+    m2,
+    content=(
+      #|Request({id: Some(String("2")), method_: "m", params: Object({"a": String("b")})})
+    ),
+  )
+  let m3 = new_response(ID::number(3), Ok({ "a": "b" }.to_json()))
+  inspect(
+    m3,
+    content=(
+      #|Response({id: Number(3), result: Ok(Object({"a": String("b")}))})
+    ),
+  )
+  let m4 = new_batch_request([m1, m2])
+  inspect(
+    m4,
+    content=(
+      #|BatchRequest([{id: None, method_: "m", params: Object({"a": String("b")})}, {id: Some(String("2")), method_: "m", params: Object({"a": String("b")})}])
+    ),
+  )
+  let m5 = new_batch_response([m1, m2, m3])
+  inspect(
+    m5,
+    content=(
+      #|BatchResponse([{id: Number(3), result: Ok(Object({"a": String("b")}))}])
+    ),
+  )
+}
 
 ///|
 pub impl ToJson for Message with to_json(self) {

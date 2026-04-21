@@ -10,7 +10,31 @@ pub(all) struct Request {
   method_ : String
   // params is either a struct or an array with the parameters of the method.
   params : Json
-} derive(Show, Eq)
+} derive(Eq)
+
+///|
+pub impl Show for Request with output(self, logger) {
+  logger.write_string(
+    (
+      $|{id: \{self.id}, method_: \{self.method_.escape(quote=true)}, params: \{self.params.to_string()}}
+    ),
+  )
+}
+
+///|
+test "Request show interface" {
+  let req1 = {
+    id: Some(ID::number(42)),
+    method_: "foo".to_string(),
+    params: { "a": "b" }.to_json(),
+  }
+  inspect(
+    req1,
+    content=(
+      #|{id: Some(Number(42)), method_: "foo", params: Object({"a": String("b")})}
+    ),
+  )
+}
 
 ///|
 pub impl ToJson for Request with to_json(self) {

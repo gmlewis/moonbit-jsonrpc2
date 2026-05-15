@@ -12,7 +12,7 @@ pub enum Message {
   BatchRequest(Array[Request])
   // BatchResponse is an array of responses.
   BatchResponse(Array[Response])
-} derive(Eq)
+} derive(Debug, Eq)
 
 ///|
 pub impl Show for Message with output(self, logger) {
@@ -32,13 +32,13 @@ pub impl Show for Message with output(self, logger) {
     BatchRequest(arr_req) =>
       logger.write_string(
         (
-          $|BatchRequest(\{arr_req.to_string()})
+          $|BatchRequest(\{to_repr(arr_req).to_string()})
         ),
       )
     BatchResponse(arr_res) =>
       logger.write_string(
         (
-          $|BatchResponse(\{arr_res.to_string()})
+          $|BatchResponse(\{to_repr(arr_res).to_string()})
         ),
       )
   }
@@ -50,35 +50,42 @@ test "Message show interface" {
   inspect(
     m1,
     content=(
-      #|Request({id: None, method_: "m", params: Object({"a": String("b")})})
+      #|Request({id: None, method_: "m", params: Object({ "a": String("b") })})
     ),
   )
   let m2 = new_call(ID::string("2"), "m", { "a": "b" }.to_json())
   inspect(
     m2,
     content=(
-      #|Request({id: Some(String("2")), method_: "m", params: Object({"a": String("b")})})
+      #|Request({id: Some(String("2")), method_: "m", params: Object({ "a": String("b") })})
     ),
   )
   let m3 = new_response(ID::number(3), Ok({ "a": "b" }.to_json()))
   inspect(
     m3,
     content=(
-      #|Response({id: Number(3), result: Ok(Object({"a": String("b")}))})
+      #|Response({id: Number(3), result: Ok(Object({ "a": String("b") }))})
     ),
   )
   let m4 = new_batch_request([m1, m2])
   inspect(
     m4,
     content=(
-      #|BatchRequest([{id: None, method_: "m", params: Object({"a": String("b")})}, {id: Some(String("2")), method_: "m", params: Object({"a": String("b")})}])
+      #|BatchRequest([
+      #|  { id: None, method_: "m", params: Object({ "a": String("b") }) },
+      #|  {
+      #|    id: Some(String("2")),
+      #|    method_: "m",
+      #|    params: Object({ "a": String("b") }),
+      #|  },
+      #|])
     ),
   )
   let m5 = new_batch_response([m1, m2, m3])
   inspect(
     m5,
     content=(
-      #|BatchResponse([{id: Number(3), result: Ok(Object({"a": String("b")}))}])
+      #|BatchResponse([{ id: Number(3), result: Ok(Object({ "a": String("b") })) }])
     ),
   )
 }

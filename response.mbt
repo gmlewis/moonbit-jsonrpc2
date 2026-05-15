@@ -6,13 +6,13 @@ pub(all) struct Response {
   id : ID
   // result is the content of the response or an error.
   result : Result[Json, WireError]
-} derive(Eq)
+} derive(Debug, Eq)
 
 ///|
 pub impl Show for Response with output(self, logger) {
   logger.write_string(
     (
-      $|{id: \{self.id}, result: \{self.result.to_string()}}
+      $|{id: \{self.id}, result: \{to_repr(self.result).to_string()}}
     ),
   )
 }
@@ -34,13 +34,13 @@ pub(all) struct WireError {
   code : Int
   message : String
   data : Json?
-} derive(Eq, FromJson, ToJson)
+} derive(Debug, Eq, FromJson, ToJson)
 
 ///|
 pub impl Show for WireError with output(self, logger) {
   logger.write_string(
     (
-      $|{code: \{self.code}, message: \{self.message.escape(quote=true)}, data: \{self.data.to_string()}}
+      $|{code: \{self.code}, message: \{self.message.escape(quote=true)}, data: \{to_repr(self.data).to_string()}}
     ),
   )
 }
@@ -55,7 +55,7 @@ test "WireError show interface" {
   inspect(
     err,
     content=(
-      #|{code: -32601, message: "Method not found", data: Some(Object({"jsonrpc": String("2.0")}))}
+      #|{code: -32601, message: "Method not found", data: Some(Object({ "jsonrpc": String("2.0") }))}
     ),
   )
 }

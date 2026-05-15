@@ -46,7 +46,9 @@ pub impl Reader for HeaderReader with read(self) -> (
       return (
         None,
         total,
-        Some(@io.IOError("failed reading header line: \{err}")),
+        Some(
+          @io.IOError("failed reading header line: \{err.unwrap().to_repr()}"),
+        ),
       )
     }
     let line = buf.to_string().trim()
@@ -63,14 +65,14 @@ pub impl Reader for HeaderReader with read(self) -> (
           Some(@io.IOError("missing colon, invalid header line: '\{line}'")),
         )
     }
-    let name = line.to_string().unsafe_substring(start=0, end=colon)
+    let name = line.to_owned().unsafe_substring(start=0, end=colon)
     let value = line
-      .to_string()
+      .to_owned()
       .unsafe_substring(start=colon + 1, end=line.length())
       .trim()
     // ignore unknown headers
     if name.to_lower() == "content-length" {
-      length = @string.parse_int(value.to_string(), base=10) catch {
+      length = @string.parse_int(value.to_owned(), base=10) catch {
         _ =>
           return (
             None,
@@ -94,7 +96,11 @@ pub impl Reader for HeaderReader with read(self) -> (
   let (n, err) = @io.copy_size(buf, self.in_, length.to_int64())
   total += n
   guard err is None else {
-    return (None, total, Some(@io.IOError("failed reading body: \{err}")))
+    return (
+      None,
+      total,
+      Some(@io.IOError("failed reading body: \{err.unwrap().to_repr()}")),
+    )
   }
   let msg : Message = @json.from_json(@json.parse(buf.to_string())) catch {
     e => return (None, 0, Some(@io.IOError(e.to_string())))

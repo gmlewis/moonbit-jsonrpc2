@@ -4,8 +4,8 @@ test "@jsonrpc2.ID/json-encoding" {
   let id2 = @jsonrpc2.ID::string("request-1")
 
   // Test JSON encoding
-  inspect(id1.to_json(), content="Number(42)")
-  inspect(
+  @debug.debug_inspect(id1.to_json(), content="Number(42)")
+  @debug.debug_inspect(
     id2.to_json(),
     content=(
       #|String("request-1")
@@ -42,11 +42,11 @@ test "@jsonrpc2.ID/equality" {
 test "@jsonrpc2.ID/edge-cases" {
   // Test with maximum Int64 value - note loss of precision
   let max_id = @jsonrpc2.ID::number(9223372036854775807)
-  inspect(max_id.to_json(), content="Number(9223372036854776000)")
+  @debug.debug_inspect(max_id.to_json(), content="Number(9223372036854776000)")
 
   // Test with empty string
   let empty_id = @jsonrpc2.ID::string("")
-  inspect(
+  @debug.debug_inspect(
     empty_id.to_json(),
     content=(
       #|String("")

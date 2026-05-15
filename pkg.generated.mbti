@@ -3,6 +3,7 @@ package "gmlewis/jsonrpc2"
 
 import {
   "gmlewis/io",
+  "moonbitlang/core/debug",
   "moonbitlang/core/json",
 }
 
@@ -43,7 +44,7 @@ pub impl Writer for HeaderWriter
 pub enum ID {
   Number(Int64)
   String(String)
-} derive(Eq)
+} derive(Eq, @debug.Debug)
 pub fn ID::number(Int64) -> Self
 pub fn ID::string(String) -> Self
 pub impl Show for ID
@@ -69,7 +70,7 @@ pub enum Message {
   Response(Response)
   BatchRequest(Array[Request])
   BatchResponse(Array[Response])
-} derive(Eq)
+} derive(Eq, @debug.Debug)
 pub fn Message::as_batch_request(Self) -> Array[Request]?
 pub fn Message::as_batch_response(Self) -> Array[Response]?
 pub fn Message::as_call(Self) -> Request?
@@ -94,7 +95,7 @@ pub(all) struct Request {
   id : ID?
   method_ : String
   params : Json
-} derive(Eq)
+} derive(Eq, @debug.Debug)
 pub impl Show for Request
 pub impl ToJson for Request
 pub impl @json.FromJson for Request
@@ -102,7 +103,7 @@ pub impl @json.FromJson for Request
 pub(all) struct Response {
   id : ID
   result : Result[Json, WireError]
-} derive(Eq)
+} derive(Eq, @debug.Debug)
 pub impl Show for Response
 pub impl ToJson for Response
 pub impl @json.FromJson for Response
@@ -111,7 +112,7 @@ pub(all) struct WireError {
   code : Int
   message : String
   data : Json?
-} derive(Eq, ToJson, @json.FromJson)
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
 pub impl Show for WireError
 
 // Type aliases

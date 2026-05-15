@@ -5,7 +5,7 @@ pub enum ID {
   Number(Int64)
   // ID is a string, used to identify the request.
   String(String)
-} derive(Eq)
+} derive(Debug, Eq)
 
 ///|
 pub impl Show for ID with output(self, logger) {

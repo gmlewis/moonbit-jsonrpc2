@@ -8,7 +8,7 @@ pub enum ID {
 } derive(Debug, Eq)
 
 ///|
-pub impl Show for ID with output(self, logger) {
+pub impl Show for ID with fn output(self, logger) {
   match self {
     Number(n) =>
       logger.write_string(
@@ -54,7 +54,7 @@ pub fn ID::string(s : String) -> ID {
 }
 
 ///|
-pub impl ToJson for ID with to_json(self) {
+pub impl ToJson for ID with fn to_json(self) {
   match self {
     Number(n) => n.to_double().to_json()
     String(s) => s.to_json()
@@ -62,7 +62,7 @@ pub impl ToJson for ID with to_json(self) {
 }
 
 ///|
-pub impl @json.FromJson for ID with from_json(json, path) {
+pub impl @json.FromJson for ID with fn from_json(json, path) {
   let n : Result[Double, @json.JsonDecodeError] = try? @json.from_json(json)
   if n is Ok(n) {
     return Number(n.to_int64())

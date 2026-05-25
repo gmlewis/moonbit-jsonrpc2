@@ -20,17 +20,17 @@ pub struct LineWriter {
 }
 
 ///|
-pub impl Framer for LineFramer with reader(_self, in_) -> &Reader {
+pub impl Framer for LineFramer with fn reader(_self, in_) -> &Reader {
   LineReader::{ in_, }
 }
 
 ///|
-pub impl Framer for LineFramer with writer(_self, out) -> &Writer {
+pub impl Framer for LineFramer with fn writer(_self, out) -> &Writer {
   LineWriter::{ out, }
 }
 
 ///|
-pub impl Reader for LineReader with read(self) -> (
+pub impl Reader for LineReader with fn read(self) -> (
   Message?,
   Int64,
   @io.IOError?,
@@ -48,7 +48,7 @@ pub impl Reader for LineReader with read(self) -> (
 }
 
 ///|
-pub impl Writer for LineWriter with write(self, msg) -> (Int64, @io.IOError?) {
+pub impl Writer for LineWriter with fn write(self, msg) -> (Int64, @io.IOError?) {
   let s = msg.to_json().stringify()
   let body = @io.Buffer::new()
   let (_, err) = body.write_string("\{s}\r\n")

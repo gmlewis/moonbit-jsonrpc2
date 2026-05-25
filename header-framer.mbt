@@ -20,17 +20,17 @@ pub struct HeaderWriter {
 }
 
 ///|
-pub impl Framer for HeaderFramer with reader(_self, in_) -> &Reader {
+pub impl Framer for HeaderFramer with fn reader(_self, in_) -> &Reader {
   HeaderReader::{ in_, }
 }
 
 ///|
-pub impl Framer for HeaderFramer with writer(_self, out) -> &Writer {
+pub impl Framer for HeaderFramer with fn writer(_self, out) -> &Writer {
   HeaderWriter::{ out, }
 }
 
 ///|
-pub impl Reader for HeaderReader with read(self) -> (
+pub impl Reader for HeaderReader with fn read(self) -> (
   Message?,
   Int64,
   @io.IOError?,
@@ -109,7 +109,10 @@ pub impl Reader for HeaderReader with read(self) -> (
 }
 
 ///|
-pub impl Writer for HeaderWriter with write(self, msg) -> (Int64, @io.IOError?) {
+pub impl Writer for HeaderWriter with fn write(self, msg) -> (
+  Int64,
+  @io.IOError?,
+) {
   let s = msg.to_json().stringify()
   let body = @io.Buffer::new()
   let (body_total, err) = body.write_string(s)

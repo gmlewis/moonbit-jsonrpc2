@@ -13,7 +13,7 @@ pub(all) struct Request {
 } derive(Debug, Eq)
 
 ///|
-pub impl Show for Request with output(self, logger) {
+pub impl Show for Request with fn output(self, logger) {
   logger.write_string(
     (
       $|{id: \{to_repr(self.id)}, method_: \{self.method_.escape(quote=true)}, params: \{to_repr(self.params).to_string()}}
@@ -37,7 +37,7 @@ test "Request show interface" {
 }
 
 ///|
-pub impl ToJson for Request with to_json(self) {
+pub impl ToJson for Request with fn to_json(self) {
   let obj = { "jsonrpc": "2.0".to_json(), "method": self.method_.to_json() }
   if !(self.params is Null) {
     obj["params"] = self.params
@@ -51,7 +51,7 @@ pub impl ToJson for Request with to_json(self) {
 }
 
 ///|
-pub impl @json.FromJson for Request with from_json(json, path) {
+pub impl @json.FromJson for Request with fn from_json(json, path) {
   guard json is Object(obj) else {
     raise @json.JsonDecodeError((path, "expected object"))
   }

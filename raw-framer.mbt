@@ -20,17 +20,21 @@ struct RawWriter {
 }
 
 ///|
-pub impl Framer for RawFramer with reader(_self, in_) -> &Reader {
+pub impl Framer for RawFramer with fn reader(_self, in_) -> &Reader {
   RawReader::{ in_, }
 }
 
 ///|
-pub impl Framer for RawFramer with writer(_self, out) -> &Writer {
+pub impl Framer for RawFramer with fn writer(_self, out) -> &Writer {
   RawWriter::{ out, }
 }
 
 ///|
-pub impl Reader for RawReader with read(self) -> (Message?, Int64, @io.IOError?) {
+pub impl Reader for RawReader with fn read(self) -> (
+  Message?,
+  Int64,
+  @io.IOError?,
+) {
   let (json, n, err) = @io.copy_json(self.in_)
   if err != None {
     return (None, n, err)
@@ -42,7 +46,7 @@ pub impl Reader for RawReader with read(self) -> (Message?, Int64, @io.IOError?)
 }
 
 ///|
-pub impl Writer for RawWriter with write(self, msg) -> (Int64, @io.IOError?) {
+pub impl Writer for RawWriter with fn write(self, msg) -> (Int64, @io.IOError?) {
   let s = msg.to_json().stringify()
   let body = @io.Buffer::new()
   let (_, err) = body.write_string(s)

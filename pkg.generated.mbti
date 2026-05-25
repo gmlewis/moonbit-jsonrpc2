@@ -119,15 +119,15 @@ pub impl Show for WireError
 
 // Traits
 pub trait Framer {
-  reader(Self, &@io.ByteReader) -> &Reader
-  writer(Self, &@io.Writer) -> &Writer
+  fn reader(Self, &@io.ByteReader) -> &Reader
+  fn writer(Self, &@io.Writer) -> &Writer
 }
 
 pub trait Reader {
-  read(Self) -> (Message?, Int64, @io.IOError?)
+  fn read(Self) -> (Message?, Int64, @io.IOError?)
 }
 
 pub trait Writer {
-  write(Self, Message) -> (Int64, @io.IOError?)
+  fn write(Self, Message) -> (Int64, @io.IOError?)
 }
 

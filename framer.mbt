@@ -14,7 +14,7 @@
 /// a single Conn in a safe manner.
 pub trait Reader {
   // Read gets the next message from the stream.
-  read(Self) -> (Message?, Int64, @io.IOError?)
+  fn read(Self) -> (Message?, Int64, @io.IOError?)
 }
 
 ///|
@@ -26,7 +26,7 @@ pub trait Reader {
 /// a single Conn in a safe manner.
 pub trait Writer {
   // Write sends a message to the stream.
-  write(Self, Message) -> (Int64, @io.IOError?)
+  fn write(Self, Message) -> (Int64, @io.IOError?)
 }
 
 ///|
@@ -35,7 +35,7 @@ pub trait Writer {
 /// It is responsible for the framing and encoding of messages into wire form.
 pub trait Framer {
   // Reader wraps a byte reader into a message reader.
-  reader(Self, &@io.ByteReader) -> &Reader
+  fn reader(Self, &@io.ByteReader) -> &Reader
   // Writer wraps a writer into a message writer.
-  writer(Self, &@io.Writer) -> &Writer
+  fn writer(Self, &@io.Writer) -> &Writer
 }

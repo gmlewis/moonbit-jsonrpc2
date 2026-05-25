@@ -9,7 +9,7 @@ pub(all) struct Response {
 } derive(Debug, Eq)
 
 ///|
-pub impl Show for Response with output(self, logger) {
+pub impl Show for Response with fn output(self, logger) {
   logger.write_string(
     (
       $|{id: \{self.id}, result: \{to_repr(self.result).to_string()}}
@@ -37,7 +37,7 @@ pub(all) struct WireError {
 } derive(Debug, Eq, FromJson, ToJson)
 
 ///|
-pub impl Show for WireError with output(self, logger) {
+pub impl Show for WireError with fn output(self, logger) {
   logger.write_string(
     (
       $|{code: \{self.code}, message: \{self.message.escape(quote=true)}, data: \{to_repr(self.data).to_string()}}
@@ -61,7 +61,7 @@ test "WireError show interface" {
 }
 
 ///|
-pub impl ToJson for Response with to_json(self) {
+pub impl ToJson for Response with fn to_json(self) {
   let obj = { "jsonrpc": "2.0".to_json() }
   match self.id {
     String(s) => obj["id"] = s.to_json()
@@ -75,7 +75,7 @@ pub impl ToJson for Response with to_json(self) {
 }
 
 ///|
-pub impl @json.FromJson for Response with from_json(json, path) {
+pub impl @json.FromJson for Response with fn from_json(json, path) {
   guard json is Object(obj) else {
     raise @json.JsonDecodeError((path, "expected object"))
   }

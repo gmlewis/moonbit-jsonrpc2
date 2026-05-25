@@ -15,7 +15,7 @@ pub enum Message {
 } derive(Debug, Eq)
 
 ///|
-pub impl Show for Message with output(self, logger) {
+pub impl Show for Message with fn output(self, logger) {
   match self {
     Request(req) =>
       logger.write_string(
@@ -91,7 +91,7 @@ test "Message show interface" {
 }
 
 ///|
-pub impl ToJson for Message with to_json(self) {
+pub impl ToJson for Message with fn to_json(self) {
   match self {
     Request(req) => req.to_json()
     Response(res) => res.to_json()
@@ -101,7 +101,7 @@ pub impl ToJson for Message with to_json(self) {
 }
 
 ///|
-pub impl @json.FromJson for Message with from_json(json, path) {
+pub impl @json.FromJson for Message with fn from_json(json, path) {
   let req : Result[Request, @json.JsonDecodeError] = try? @json.from_json(json)
   if req is Ok(req) {
     return Request(req)

@@ -63,13 +63,17 @@ pub impl ToJson for ID with fn to_json(self) {
 
 ///|
 pub impl @json.FromJson for ID with fn from_json(json, path) {
-  let n : Result[Double, @json.JsonDecodeError] = try? @json.from_json(json)
-  if n is Ok(n) {
+  try {
+    let n : Double = @json.from_json(json, path~)
     return Number(n.to_int64())
+  } catch {
+    _ => ()
   }
-  let s : Result[String, @json.JsonDecodeError] = try? @json.from_json(json)
-  if s is Ok(s) {
+  try {
+    let s : String = @json.from_json(json, path~)
     return String(s)
+  } catch {
+    _ => ()
   }
   raise @json.JsonDecodeError((path, "expected number or string"))
 }

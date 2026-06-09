@@ -102,25 +102,25 @@ pub impl ToJson for Message with fn to_json(self) {
 
 ///|
 pub impl @json.FromJson for Message with fn from_json(json, path) {
-  let req : Result[Request, @json.JsonDecodeError] = try? @json.from_json(json)
-  if req is Ok(req) {
-    return Request(req)
+  try {
+    return Request(@json.from_json(json, path~))
+  } catch {
+    _ => ()
   }
-  let res : Result[Response, @json.JsonDecodeError] = try? @json.from_json(json)
-  if res is Ok(res) {
-    return Response(res)
+  try {
+    return Response(@json.from_json(json, path~))
+  } catch {
+    _ => ()
   }
-  let arr_req : Result[Array[Request], @json.JsonDecodeError] = try? @json.from_json(
-    json,
-  )
-  if arr_req is Ok(arr_req) {
-    return BatchRequest(arr_req)
+  try {
+    return BatchRequest(@json.from_json(json, path~))
+  } catch {
+    _ => ()
   }
-  let arr_res : Result[Array[Response], @json.JsonDecodeError] = try? @json.from_json(
-    json,
-  )
-  if arr_res is Ok(arr_res) {
-    return BatchResponse(arr_res)
+  try {
+    return BatchResponse(@json.from_json(json, path~))
+  } catch {
+    _ => ()
   }
   raise @json.JsonDecodeError((path, "expected request(s) or response(s)"))
 }

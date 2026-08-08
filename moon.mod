@@ -1,9 +1,9 @@
 name = "gmlewis/jsonrpc2"
 
-version = "0.0.33"
+version = "0.0.34"
 
 import {
-  "gmlewis/io@0.23.13",
+  "gmlewis/io@0.23.14",
 }
 
 readme = "README.md"

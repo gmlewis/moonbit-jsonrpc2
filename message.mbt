@@ -32,13 +32,13 @@ pub impl Show for Message with fn output(self, logger) {
     BatchRequest(arr_req) =>
       logger.write_string(
         (
-          $|BatchRequest(\{to_repr(arr_req).to_string()})
+          $|BatchRequest(\{Repr(arr_req).to_string()})
         ),
       )
     BatchResponse(arr_res) =>
       logger.write_string(
         (
-          $|BatchResponse(\{to_repr(arr_res).to_string()})
+          $|BatchResponse(\{Repr(arr_res).to_string()})
         ),
       )
   }

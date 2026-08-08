@@ -16,7 +16,7 @@ pub(all) struct Request {
 pub impl Show for Request with fn output(self, logger) {
   logger.write_string(
     (
-      $|{id: \{to_repr(self.id)}, method_: \{self.method_.escape(quote=true)}, params: \{to_repr(self.params).to_string()}}
+      $|{id: \{Repr(self.id)}, method_: \{self.method_.escape(quote=true)}, params: \{Repr(self.params).to_string()}}
     ),
   )
 }

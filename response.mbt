@@ -12,7 +12,7 @@ pub(all) struct Response {
 pub impl Show for Response with fn output(self, logger) {
   logger.write_string(
     (
-      $|{id: \{self.id}, result: \{to_repr(self.result).to_string()}}
+      $|{id: \{self.id}, result: \{Repr(self.result).to_string()}}
     ),
   )
 }
@@ -40,7 +40,7 @@ pub(all) struct WireError {
 pub impl Show for WireError with fn output(self, logger) {
   logger.write_string(
     (
-      $|{code: \{self.code}, message: \{self.message.escape(quote=true)}, data: \{to_repr(self.data).to_string()}}
+      $|{code: \{self.code}, message: \{self.message.escape(quote=true)}, data: \{Repr(self.data).to_string()}}
     ),
   )
 }

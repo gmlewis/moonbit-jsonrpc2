@@ -130,4 +130,3 @@ pub trait Reader {
 pub trait Writer {
   fn write(Self, Message) -> (Int64, @io.IOError?)
 }
-
